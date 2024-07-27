@@ -1,6 +1,6 @@
 extends RigidBody2D
 
-const BOUNDS_PADDING = 100
+const BOUNDS_PADDING = 500
 var bounds
 @export var color: Color
 
