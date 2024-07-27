@@ -4,15 +4,11 @@ extends Node2D
 
 var story_screen = load("res://scenes/story_screen/story_screen.tscn")
 var bullet_spawner = load("res://scenes/game/bullet_spawner/spawner_pinwheel.tscn")
-var story_screen_instance
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	$Player/Hurtbox.player_hit.connect(_on_player_hurtbox_player_hit)
-	var dialogue = Api.get_dialogue()
-	story_screen_instance = story_screen.instantiate()
-	story_screen_instance.lines = [dialogue.romeo_dialogue, dialogue.juliet_dialogue]
-	story_screen_instance.bullet_color = Color(dialogue.color_hex_code)
+	Api.get_dialogue()
 	
 	for i in range(3):
 		place_bullet_spawner()
@@ -22,6 +18,14 @@ func _process(delta):
 	pass
 
 func _on_player_hurtbox_player_hit():
+	var story_screen_instance = story_screen.instantiate()
+	var dialogue = Api.data
+	if (not dialogue.has("romeo_dialogue") or not dialogue.has("juliet_dialogue")):
+		dialogue = Api.get_fallback_dialogue()
+	story_screen_instance.lines = [dialogue.romeo_dialogue, dialogue.juliet_dialogue]
+	if (not dialogue.has("color_hex_code")):
+		dialogue = Api.get_fallback_dialogue()
+	story_screen_instance.bullet_color = Color(dialogue.color_hex_code)
 	var story_screen_packed = PackedScene.new()
 	story_screen_packed.pack(story_screen_instance)
 	get_tree().change_scene_to_packed(story_screen_packed)

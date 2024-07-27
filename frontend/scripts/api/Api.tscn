@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://bo08ndfq0bxir"]
+
+[ext_resource type="Script" path="res://scripts/api/Api.gd" id="1_2rnx1"]
+
+[node name="Api" type="HTTPRequest"]
+script = ExtResource("1_2rnx1")
+
+[connection signal="request_completed" from="." to="." method="_on_request_completed"]
