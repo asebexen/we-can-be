@@ -4,7 +4,7 @@ var story_screen = load("res://scenes/story_screen/story_screen.tscn")
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	Api.get_dialogue()
+	Api.get_positive_dialogue()
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -14,7 +14,10 @@ func _process(delta):
 
 func _on_button_pressed():
 	var story_screen_instance = story_screen.instantiate()
+	
 	var dialogue = Api.data
+	if (not dialogue):
+		dialogue = Api.get_fallback_dialogue()
 	if (not dialogue.has("romeo_dialogue") or not dialogue.has("juliet_dialogue")):
 		dialogue = Api.get_fallback_dialogue()
 	story_screen_instance.lines = [dialogue.romeo_dialogue, dialogue.juliet_dialogue]

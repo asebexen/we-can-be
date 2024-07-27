@@ -6,7 +6,7 @@ var game = load("res://scenes/game/game.tscn")
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	$StoryText.text = "\n\n".join(lines)
+	$StoryText.text = "Romeo: %s\n\nJuliet: %s" % [lines[0], lines[1]]
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

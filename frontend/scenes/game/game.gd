@@ -3,12 +3,13 @@ extends Node2D
 @export var bullet_color: Color
 
 var story_screen = load("res://scenes/story_screen/story_screen.tscn")
-var bullet_spawner = load("res://scenes/game/bullet_spawner/spawner_pinwheel.tscn")
+var pinwheel_spawner = load("res://scenes/game/bullet_spawner/spawner_pinwheel.tscn")
+var linear_spawner = load("res://scenes/game/bullet_spawner/spawner_linear.tscn")
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	$Player/Hurtbox.player_hit.connect(_on_player_hurtbox_player_hit)
-	Api.get_dialogue()
+	Api.get_negative_dialogue()
 	
 	for i in range(3):
 		place_bullet_spawner()
@@ -20,6 +21,8 @@ func _process(delta):
 func _on_player_hurtbox_player_hit():
 	var story_screen_instance = story_screen.instantiate()
 	var dialogue = Api.data
+	if (not dialogue):
+		dialogue = Api.get_fallback_dialogue()
 	if (not dialogue.has("romeo_dialogue") or not dialogue.has("juliet_dialogue")):
 		dialogue = Api.get_fallback_dialogue()
 	story_screen_instance.lines = [dialogue.romeo_dialogue, dialogue.juliet_dialogue]
@@ -31,11 +34,21 @@ func _on_player_hurtbox_player_hit():
 	get_tree().change_scene_to_packed(story_screen_packed)
 
 func place_bullet_spawner():
-	var spawner = bullet_spawner.instantiate()
+	var spawner
 	
-	spawner.max_rotation = randf_range(PI, 30 * PI)
-	spawner.rotation_speed = randf_range(2 * PI, 6 * PI)
-	spawner.rotate_step = randf_range(0.20, 0.55)
+	# Randomly choose between pinwheel and linear spawners
+	if randf() < 0.5:
+		spawner = pinwheel_spawner.instantiate()
+		
+		spawner.max_rotation = randf_range(PI, 30 * PI)
+		spawner.rotation_speed = randf_range(2 * PI, 6 * PI)
+		spawner.rotate_step = randf_range(0.20, 0.55)
+	else:
+		spawner = linear_spawner.instantiate()
+		
+		spawner.spawn_rate = randf_range(0.3, 1.0)
+		spawner.spawn_count_max = randi_range(2, 10)
+		
 	spawner.spawn_velocity = randi_range(200, 600)
 	spawner.bullet_color = bullet_color
 	
