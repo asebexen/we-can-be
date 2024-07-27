@@ -17,7 +17,8 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-GamePhysics="*res://scenes/globals/physics.gd"
+GamePhysics="*res://scripts/globals/physics.gd"
+Api="*res://scripts/api/api.gd"
 
 [display]
 

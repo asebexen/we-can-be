@@ -1,0 +1,27 @@
+[
+	{
+		"romeo_dialogue": "Please, just give me a chance. I’ve been thinking a lot, and I really want to explain myself.",
+		"juliet_dialogue": "Explain what, exactly? You hurt me, and it’s not something I can just forget.",
+		"color_hex_code": "#FF0000"
+	},
+	{
+		"romeo_dialogue": "I know I made mistakes, but I’ve changed. I’m committed to making things right and proving my love for you.",
+		"juliet_dialogue": "It’s hard to believe, but seeing you so earnest makes me wonder if there’s a chance for us.",
+		"color_hex_code": "#00FF00"
+	},
+	{
+		"romeo_dialogue": "I understand if you need more time, but please know that my feelings for you haven’t changed.",
+		"juliet_dialogue": "I appreciate your honesty, but I’m afraid too much damage has been done for me to consider reconciliation.",
+		"color_hex_code": "#FF0000"
+	},
+	{
+		"romeo_dialogue": "I promise to make it up to you every single day. Let’s start fresh and rebuild what we once had.",
+		"juliet_dialogue": "Your words are touching. Maybe we can try and see if we can find our way back to each other.",
+		"color_hex_code": "#00FF00"
+	},
+	{
+		"romeo_dialogue": "Thank you for giving us another chance. I won’t let you down this time, I swear.",
+		"juliet_dialogue": "I believe you. Let’s take it one step at a time and see where this new beginning takes us.",
+		"color_hex_code": "#00FF00"
+	}
+]
