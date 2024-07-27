@@ -2,8 +2,9 @@ extends CharacterBody2D
 
 var can_jump = false
 var dir = 0
-var move_speed = 600
-var jump_velocity = 900
+@export var move_speed: int
+@export var walk_speed: int
+@export var jump_velocity: int
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -24,9 +25,11 @@ func process_walk(delta):
 		dir += 1
 	if Input.is_action_pressed("move_left"):
 		dir -= 1
+		
 	if Input.is_action_pressed("move_slow"):
-		coeff /= 2
-	velocity[0] = dir * move_speed * coeff
+		velocity[0] = dir * walk_speed
+	else:
+		velocity[0] = dir * move_speed
 	
 func process_jump():
 	if Input.is_action_pressed("move_jump") and can_jump == true:

@@ -1,0 +1,29 @@
+[gd_scene load_steps=3 format=3 uid="uid://xd12eyd32610"]
+
+[ext_resource type="Script" path="res://scenes/bullet/bullet.gd" id="1_a86tu"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_0dgkx"]
+radius = 5.0
+
+[node name="Bullet" type="RigidBody2D" groups=["bullet"]]
+collision_layer = 2
+collision_mask = 4
+gravity_scale = 0.0
+script = ExtResource("1_a86tu")
+color = Color(0.844109, 0.317264, 0.360819, 1)
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -5.0
+offset_top = -5.0
+offset_right = 5.0
+offset_bottom = 5.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_0dgkx")
