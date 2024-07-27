@@ -1,7 +1,10 @@
 from flask import Flask, request, jsonify
 import os
+from dotenv import load_dotenv
 from openai import OpenAI
 import openai
+
+load_dotenv()
 
 client = OpenAI()
 
@@ -24,11 +27,7 @@ base_prompt = """
     a color hex code that represents the tone of the dialogue. Try to use a wide spectrum of colors and to not repeat colors.
 
     Your response should be formatted as a JSON body as follows:
-    {
-        "romeo_dialogue": "Please, just give me a chance. I’ve been thinking a lot, and I really want to explain myself.",
-        "juliet_dialogue": "Explain what, exactly? You hurt me, and it’s not something I can just forget.",
-        "color_hex_code": "#FF0000"
-    }
+    {"romeo_dialogue": "Please, just give me a chance. I’ve been thinking a lot, and I really want to explain myself.","juliet_dialogue": "Explain what, exactly? You hurt me, and it’s not something I can just forget.","color_hex_code": "#FF0000"}
     """
 
 # In-memory store for session histories
@@ -84,13 +83,16 @@ def progress_story_positively():
 
     if session_id not in session_histories:
         return jsonify({"error": "Session ID not found. Please start a new session."}), 400
-    prompt = "Forward the story positively."
+    prompt = """Forward the story positively. Your response should be formatted as a JSON body as follows and only as follows:{"romeo_dialogue": "Please, just give me a chance. I’ve been thinking a lot, and I really want to explain myself.","juliet_dialogue": "Explain what, exactly? You hurt me, and it’s not something I can just forget.","color_hex_code": "#FF0000"}"""
     try:
         dialogue_response = generate_dialogue(session_id, prompt, session_histories)
         return jsonify({"dialogue_response": dialogue_response})
     except Exception as e:
         app.logger.error(f"Error in progress_story_positively: {str(e)}")
         return jsonify({"error": str(e)}), 500
+    
+
+      
 
 
 # Forward the story negatively
@@ -103,7 +105,7 @@ def progress_story_negatively():
 
     if session_id not in session_histories:
         return jsonify({"error": "Session ID not found. Please start a new session."}), 400
-    prompt = "Forward the story negatively."
+    prompt = """Forward the story negatively. Your response should be formatted as a JSON body as follows and only as follows:{"romeo_dialogue": "Please, just give me a chance. I’ve been thinking a lot, and I really want to explain myself.","juliet_dialogue": "Explain what, exactly? You hurt me, and it’s not something I can just forget.","color_hex_code": "#FF0000"}"""
     try:
         dialogue_response = generate_dialogue(session_id, prompt, session_histories)
         return jsonify({"dialogue_response": dialogue_response})
