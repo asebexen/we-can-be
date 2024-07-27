@@ -83,7 +83,7 @@ def progress_story_positively():
 
     if session_id not in session_histories:
         return jsonify({"error": "Session ID not found. Please start a new session."}), 400
-    prompt = """Forward the story positively. Your response should be formatted as a JSON body as follows and only as follows:{"romeo_dialogue": "Please, just give me a chance. I’ve been thinking a lot, and I really want to explain myself.","juliet_dialogue": "Explain what, exactly? You hurt me, and it’s not something I can just forget.","color_hex_code": "#FF0000"}"""
+    prompt = """Forward the story positively. Your response should be formatted ONLY following the example here:{"romeo_dialogue": "","juliet_dialogue": "","color_hex_code": ""}"""
     try:
         dialogue_response = generate_dialogue(session_id, prompt, session_histories)
         return jsonify({"dialogue_response": dialogue_response})
@@ -105,7 +105,7 @@ def progress_story_negatively():
 
     if session_id not in session_histories:
         return jsonify({"error": "Session ID not found. Please start a new session."}), 400
-    prompt = """Forward the story negatively. Your response should be formatted as a JSON body as follows and only as follows:{"romeo_dialogue": "Please, just give me a chance. I’ve been thinking a lot, and I really want to explain myself.","juliet_dialogue": "Explain what, exactly? You hurt me, and it’s not something I can just forget.","color_hex_code": "#FF0000"}"""
+    prompt = """Forward the story negatively. Your response should be formatted ONLY following the example here:{"romeo_dialogue": "","juliet_dialogue": "","color_hex_code": ""}"""
     try:
         dialogue_response = generate_dialogue(session_id, prompt, session_histories)
         return jsonify({"dialogue_response": dialogue_response})
