@@ -14,9 +14,9 @@ var current_rotation = 0.0
 # decouple spawning behavior from the physics engine (else I could only spawn
 # bullets at discrete intervals.)
 var last_spawn = 0.0
-# Whether or not the spawner is spinning and firing bullets.
-@export var is_active: bool
 @export var bullet_color: Color
+
+signal done
 
 var bullet = load("res://scenes/game/bullet/bullet.tscn")
 
@@ -27,14 +27,9 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	if is_active == true:
-		current_rotation += rotation_speed * delta
+	current_rotation += rotation_speed * delta
 	spawn_bullets()
 
-func start_spawn():
-	current_rotation = 0.0
-	last_spawn = 0.0
-	is_active = true
 
 func spawn_bullets():
 	var next_spawn = last_spawn + rotate_step
@@ -42,8 +37,11 @@ func spawn_bullets():
 		var bullet_instance = bullet.instantiate()
 		bullet_instance.linear_velocity = Vector2.UP.rotated(next_spawn) * spawn_velocity
 		bullet_instance.color = bullet_color
+		# Bullets are added into the parent container
+		bullet_instance.position += position
 		last_spawn = next_spawn
 		next_spawn = last_spawn + rotate_step
-		add_child(bullet_instance)
+		get_parent().add_child(bullet_instance)
 	if current_rotation > max_rotation:
-		is_active = false
+		done.emit()
+		queue_free()

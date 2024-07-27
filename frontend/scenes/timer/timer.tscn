@@ -1,0 +1,38 @@
+[gd_scene load_steps=2 format=3 uid="uid://dqheguo05c2d6"]
+
+[ext_resource type="Script" path="res://scenes/timer/timer.gd" id="1_j1w4l"]
+
+[node name="Timer" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_j1w4l")
+value = 50.0
+value_max = 100.0
+
+[node name="Base" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -540.0
+offset_top = 30.0
+offset_right = 540.0
+offset_bottom = 46.0
+grow_horizontal = 2
+color = Color(0.84, 0.84, 0.84, 1)
+
+[node name="Bar" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -538.0
+offset_top = 32.0
+offset_right = 538.0
+offset_bottom = 44.0
+grow_horizontal = 2
+color = Color(0.361901, 0.127372, 0.139905, 1)
