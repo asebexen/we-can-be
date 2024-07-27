@@ -1,4 +1,16 @@
 from flask import Flask, request, jsonify
+import os
+from openai import OpenAI
+import openai
+
+client = OpenAI()
+
+# Set your OpenAI API key from environment variable
+openai.api_key = os.getenv('OPENAI_API_KEY')
+
+# Ensure the API key is available
+if not openai.api_key:
+    raise ValueError("The API key is not set. Please set the OPENAI_API_KEY environment variable.")
 
 app = Flask(__name__)
 
@@ -19,54 +31,101 @@ base_prompt = """
     }
     """
 
+# In-memory store for session histories
+session_histories = {}
 
-@app.route('/')
-def start_game():
-    # initialize the agent chat session + provide base prompt here
+def generate_dialogue(session_id, prompt, session_histories):
+    # Append the new user prompt to the session history
+    session_histories[session_id].append({"role": "user", "content": prompt})
 
-    return "hello world"
+    # Combine the base prompt with the session history if it's the first interaction, otherwise just use the session history
+    if len(session_histories[session_id]) == 1:
+        messages = [{"role": "system", "content": base_prompt}] + session_histories[session_id]
+    else:
+        messages = session_histories[session_id]
 
+    # API Call
+    response = client.chat.completions.create(model="gpt-3.5-turbo-0125",  # Use the appropriate GPT-3.5 model name
+    messages=messages,
+    max_tokens=200,
+    temperature=0.7)
+
+    # Extract the JSON response
+    dialogue_response = response.choices[0].message.content
+
+    # Append the response to the session history
+    session_histories[session_id].append({"role": "assistant", "content": dialogue_response})
+
+    return dialogue_response
+
+
+'''
+Example JSON body for POST requests
+{
+    "session_id": 0
+}
+'''
+
+# Root endpoint to initialize a new session
+@app.route('/', methods=['GET'])
+def start_game_session():
+    session_id = len(session_histories) + 1
+    session_histories[session_id] = []
+    print("session_histories: ", session_histories)
+    return jsonify({"session_id": session_id})
+
+# Forward the story positively
 @app.route('/positiveStory', methods=['POST'])
 def progress_story_positively():
-    prompt = 'Progress the story positively'
+    data = request.get_json()
+    session_id = data['session_id']
 
-    # send prompt to agent
+    if session_id not in session_histories:
+        return jsonify({"error": "Session ID not found. Please start a new session."}), 400
+    prompt = "Forward the story positively."
+    try:
+        dialogue_response = generate_dialogue(session_id, prompt, session_histories)
+        return jsonify({"dialogue_response": dialogue_response})
+    except Exception as e:
+        app.logger.error(f"Error in progress_story_positively: {str(e)}")
+        return jsonify({"error": str(e)}), 500
 
 
-    agent_output = ''
-
-    response = agent_output
-    return response
-
+# Forward the story negatively
 @app.route('/negativeStory', methods=['POST'])
 def progress_story_negatively():
-    prompt = 'Progress the story negatively'
+    data = request.get_json()
+    session_id = data['session_id']
 
-    # send prompt to agent
-
-
-    agent_output = ''
-
-    response = agent_output
-    return response
-
-
-@app.route('/endStoryTogether', methods=['POST'])
-def end_story_with_together():
-    prompt = 'End the story with the characters getting back together'
-
-    # send prompt to agent
-
-    return "blah"
-
-@app.route('/endStoryBreakup', methods=['POST'])
-def end_story_with_breakup():
-    prompt = 'End the story with the characters breaking up'
-
-    # send prompt to agent
-
-    return "blah"
+    if session_id not in session_histories:
+        return jsonify({"error": "Session ID not found. Please start a new session."}), 400
+    prompt = "Forward the story negatively."
+    try:
+        dialogue_response = generate_dialogue(session_id, prompt, session_histories)
+        return jsonify({"dialogue_response": dialogue_response})
+    except Exception as e:
+        app.logger.error(f"Error in progress_story_negatively: {str(e)}")
+        return jsonify({"error": str(e)}), 500
 
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+
+
+
+# @app.route('/endStoryTogether', methods=['POST'])
+# def end_story_with_together():
+#     prompt = 'End the story with the characters getting back together'
+
+#     # send prompt to agent
+
+#     return "blah"
+
+# @app.route('/endStoryBreakup', methods=['POST'])
+# def end_story_with_breakup():
+#     prompt = 'End the story with the characters breaking up'
+
+#     # send prompt to agent
+
+#     return "blah"
