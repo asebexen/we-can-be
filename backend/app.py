@@ -112,20 +112,25 @@ if __name__ == '__main__':
     app.run(debug=True)
 
 
+@app.route('/endStoryTogether', methods=['POST'])
+def end_story_with_together():
+    data = request.get_json()
+    session_id = data['session_id']
 
+    if session_id not in session_histories:
+        return jsonify({"error": "Session ID not found. Please start a new session."}), 400
+    prompt = "Forward the story negatively."
+    try:
+        dialogue_response = generate_dialogue(session_id, prompt, session_histories)
+        return jsonify({"dialogue_response": dialogue_response})
+    except Exception as e:
+        app.logger.error(f"Error in progress_story_negatively: {str(e)}")
+        return jsonify({"error": str(e)}), 500
 
-# @app.route('/endStoryTogether', methods=['POST'])
-# def end_story_with_together():
-#     prompt = 'End the story with the characters getting back together'
+@app.route('/endStoryBreakup', methods=['POST'])
+def end_story_with_breakup():
+    prompt = 'End the story with the characters breaking up'
 
-#     # send prompt to agent
+    # send prompt to agent
 
-#     return "blah"
-
-# @app.route('/endStoryBreakup', methods=['POST'])
-# def end_story_with_breakup():
-#     prompt = 'End the story with the characters breaking up'
-
-#     # send prompt to agent
-
-#     return "blah"
+    return "blah"
