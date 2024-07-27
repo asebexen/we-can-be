@@ -15,9 +15,9 @@ if not openai.api_key:
 app = Flask(__name__)
 
 base_prompt = """
-    You are a storyteller telling a story about two lovers in the form of a back-and-forth dialogue where a character named Romeo is 
+    You are a storyteller telling a continuous story about two lovers in the form of a back-and-forth dialogue where a character named Romeo is 
     is trying to convince another character named Juliet to get back together. By the end of the dialogue, the characters should come to a decision 
-    that they [do / do not] get back together. Throughout the dialogue, LoverB wavers between getting back together and breaking up.
+    that they [do / do not] get back together. Throughout the dialogue, Juliet wavers between getting back together and breaking up.
 
     Throughout this conversation, you will be prompted to forward the story either positively or negatively. With each prompt, forward the story as instructed in the form of 
     two lines of dialogue between Romeo and Juliet. And then analyze the tone of the "juliet_dialogue" and provide 
@@ -75,10 +75,12 @@ def start_game_session():
     return jsonify({"session_id": session_id})
 
 # Forward the story positively
-@app.route('/positiveStory', methods=['POST'])
+@app.route('/positiveStory', methods=['GET'])
 def progress_story_positively():
-    data = request.get_json()
-    session_id = data['session_id']
+    #data = request.get_json()
+    #session_id = data['session_id']
+
+    session_id = 1
 
     if session_id not in session_histories:
         return jsonify({"error": "Session ID not found. Please start a new session."}), 400
@@ -92,10 +94,12 @@ def progress_story_positively():
 
 
 # Forward the story negatively
-@app.route('/negativeStory', methods=['POST'])
+@app.route('/negativeStory', methods=['GET'])
 def progress_story_negatively():
-    data = request.get_json()
-    session_id = data['session_id']
+    #data = request.get_json()
+    #session_id = data['session_id']
+
+    session_id = 1
 
     if session_id not in session_histories:
         return jsonify({"error": "Session ID not found. Please start a new session."}), 400
