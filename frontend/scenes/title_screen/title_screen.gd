@@ -14,6 +14,7 @@ func _process(delta):
 
 func _on_button_pressed():
 	var story_screen_instance = story_screen.instantiate()
+	
 	var dialogue = Api.data
 	if (not dialogue.has("romeo_dialogue") or not dialogue.has("juliet_dialogue")):
 		dialogue = Api.get_fallback_dialogue()

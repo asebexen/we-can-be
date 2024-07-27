@@ -26,5 +26,8 @@ func get_fallback_dialogue():
 func _on_request_completed(result, response_code, headers, body):
 	print("request resolved")
 	var json = JSON.parse_string(body.get_string_from_utf8())
-	data = json
-	print(data)
+	if json.has("dialogue_response"):
+		data = JSON.parse_string(json.dialogue_response)
+	else:
+		data = json
+	print(data, typeof(data))
