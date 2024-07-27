@@ -1,0 +1,49 @@
+[gd_scene load_steps=5 format=3 uid="uid://8tui0oqyxd27"]
+
+[ext_resource type="Script" path="res://scenes/title_screen/title_screen.gd" id="1_368aj"]
+
+[sub_resource type="SystemFont" id="SystemFont_0j4pw"]
+font_names = PackedStringArray("Comic Sans MS")
+
+[sub_resource type="Theme" id="Theme_6lw57"]
+default_font = SubResource("SystemFont_0j4pw")
+default_font_size = 32
+
+[sub_resource type="LabelSettings" id="LabelSettings_bxxv7"]
+font_size = 72
+
+[node name="TitleScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_6lw57")
+script = ExtResource("1_368aj")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_top = 100.0
+offset_right = 1280.0
+offset_bottom = 180.0
+text = "We Can Be { }"
+label_settings = SubResource("LabelSettings_bxxv7")
+horizontal_alignment = 1
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -125.0
+offset_top = 130.0
+offset_right = 125.0
+offset_bottom = 210.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Start"
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

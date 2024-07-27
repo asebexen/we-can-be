@@ -18,7 +18,7 @@ var last_spawn = 0.0
 @export var is_active: bool
 @export var bullet_color: Color
 
-var bullet = load("res://scenes/bullet/bullet.tscn")
+var bullet = load("res://scenes/game/bullet/bullet.tscn")
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
