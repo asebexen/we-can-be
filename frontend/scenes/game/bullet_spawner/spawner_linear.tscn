@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://b4f8ch4keevns"]
+
+[ext_resource type="Script" path="res://scenes/game/bullet_spawner/spawner_linear.gd" id="1_cmhsm"]
+
+[node name="SpawnerLinear" type="Node2D"]
+script = ExtResource("1_cmhsm")
+spawn_velocity = 300.0
+bullet_color = Color(0.936098, 0.435249, 0.430399, 1)
