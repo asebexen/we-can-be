@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://2lmjy6qx3hi0"]
 
-[ext_resource type="Script" path="res://scenes/player/player.gd" id="1_0fapc"]
-[ext_resource type="Script" path="res://scenes/player/Hurtbox.gd" id="2_4537w"]
+[ext_resource type="Script" path="res://scenes/game/player/player.gd" id="1_0fapc"]
+[ext_resource type="Script" path="res://scenes/game/player/Hurtbox.gd" id="2_4537w"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_48npu"]
 size = Vector2(40, 40)

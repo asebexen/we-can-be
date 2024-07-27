@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://cgojbwjyrfaa0"]
 
-[ext_resource type="Script" path="res://scenes/bullet_spawner/spawner_pinwheel.gd" id="1_3do3d"]
+[ext_resource type="Script" path="res://scenes/game/bullet_spawner/spawner_pinwheel.gd" id="1_3do3d"]
 
 [node name="SpawnerPinwheel" type="Node2D"]
 script = ExtResource("1_3do3d")
