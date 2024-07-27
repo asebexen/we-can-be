@@ -13,4 +13,10 @@ func _process(delta):
 
 
 func _on_button_pressed():
-	get_tree().change_scene_to_packed(story_screen)
+	var dialogue = Api.get_dialogue()
+	var story_screen_instance = story_screen.instantiate()
+	story_screen_instance.lines = [dialogue.romeo_dialogue, dialogue.juliet_dialogue]
+	story_screen_instance.bullet_color = Color(dialogue.color_hex_code)
+	var story_screen_packed = PackedScene.new()
+	story_screen_packed.pack(story_screen_instance)
+	get_tree().change_scene_to_packed(story_screen_packed)

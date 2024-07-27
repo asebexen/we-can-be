@@ -1,6 +1,7 @@
 extends Control
 
 @export var lines: PackedStringArray
+@export var bullet_color: Color
 var game = load("res://scenes/game/game.tscn")
 
 # Called when the node enters the scene tree for the first time.
@@ -14,4 +15,8 @@ func _process(delta):
 
 
 func _on_button_pressed():
-	get_tree().change_scene_to_packed(game)
+	var game_instance = game.instantiate()
+	game_instance.bullet_color = bullet_color
+	var game_packed = PackedScene.new()
+	game_packed.pack(game_instance)
+	get_tree().change_scene_to_packed(game_packed)
